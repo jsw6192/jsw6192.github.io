@@ -1,0 +1,476 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="description" content="범분야 저장소 내장형 AI 작업체계 개념 정본의 HTML 판. 연령 프로필을 적용하지 않은 기본 문서 계약">
+<meta name="source-revision" content="f0afbb3">
+<meta name="source-sha256" content="df31b5a79e77">
+<title>범분야 저장소 내장형 AI 작업체계 — 개념 정본</title>
+<!--
+  파생 정본: docs/개념_정본.md
+  설명 프로필: 없음 (doc-to-html 기본 문서 계약)
+  생성: gen-doc-html.py — 손으로 고치지 말고 정본을 고친 뒤 다시 생성한다
+  IBM Plex Sans KR: Copyright 2017 IBM Corp., SIL Open Font License 1.1
+-->
+<style>
+    @font-face {
+      font-family: "IBM Plex Sans KR";
+      font-style: normal; font-weight: 400; font-display: swap;
+      src: url("assets/fonts/IBMPlexSansKR-Regular.woff2") format("woff2");
+    }
+    @font-face {
+      font-family: "IBM Plex Sans KR";
+      font-style: normal; font-weight: 600; font-display: swap;
+      src: url("assets/fonts/IBMPlexSansKR-SemiBold.woff2") format("woff2");
+    }
+
+    :root {
+      --paper: #f4f0e6; --paper-raised: #fffdf7; --ink: #17302c; --muted: #566660;
+      --line: #cfc8b7; --line-strong: #9b9588;
+      --teal: #167267; --teal-soft: #dbece6;
+      --ochre: #a96714; --ochre-soft: #f4e4c7;
+      --code-bg: #eae4d5; --white: #ffffff;
+      --radius-s: 8px; --radius-m: 16px;
+      --page: 860px;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --paper: #121b1a; --paper-raised: #192625; --ink: #eef3ee; --muted: #b7c3bd;
+        --line: #394a45; --line-strong: #64736e;
+        --teal: #75d4c2; --teal-soft: #173b35;
+        --ochre: #e4ad63; --ochre-soft: #402f19;
+        --code-bg: #22302e;
+      }
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; background: var(--paper); overflow-x: hidden; }
+
+    body {
+      margin: 0; color: var(--ink); background: var(--paper);
+      font-family: "IBM Plex Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif;
+      font-size: 17px; line-height: 1.78;
+      word-break: keep-all; overflow-wrap: anywhere;
+    }
+
+    a { color: var(--teal); text-underline-offset: 0.18em; }
+    a:hover { color: var(--ochre); }
+    a:focus-visible { outline: 3px solid var(--ochre); outline-offset: 3px; border-radius: 3px; }
+
+    .skip-link {
+      position: fixed; top: 10px; left: 10px; z-index: 100;
+      padding: 10px 14px; color: var(--white); background: var(--ink);
+      transform: translateY(-150%);
+    }
+    .skip-link:focus { transform: translateY(0); }
+
+    .page-shell { width: min(calc(100% - 32px), var(--page)); margin: 0 auto; }
+
+    .topbar {
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 16px; padding: 18px 0; border-bottom: 1px solid var(--line);
+      flex-wrap: wrap; font-size: 0.86rem;
+    }
+    .profile {
+      display: inline-flex; align-items: center; min-height: 32px;
+      padding: 4px 11px; border: 1px solid var(--teal); border-radius: 999px;
+      color: var(--teal); font-weight: 600;
+    }
+    .origin { color: var(--muted); }
+
+    .gennote {
+      margin: 22px 0 6px; padding: 16px 18px;
+      border: 1px solid var(--line); border-left: 5px solid var(--ochre);
+      border-radius: var(--radius-m); background: var(--ochre-soft);
+      font-size: 0.93rem;
+    }
+
+    .contents { padding: 22px 0 14px; border-bottom: 1px solid var(--line); }
+    .contents-title { margin: 0 0 10px; font-size: 0.92rem; color: var(--ochre); }
+    .contents ol { margin: 0; padding-left: 1.4em; font-size: 0.93rem; columns: 2; column-gap: 32px; }
+    .contents li { margin-bottom: 4px; break-inside: avoid; }
+
+    .prose { padding: 8px 0 56px; }
+    .prose h1 {
+      margin: 34px 0 10px; font-size: clamp(1.7rem, 4.4vw, 2.5rem); line-height: 1.26;
+    }
+    .prose h2 {
+      margin: 52px 0 14px; padding-top: 14px; border-top: 1px solid var(--line);
+      font-size: clamp(1.3rem, 3vw, 1.75rem); line-height: 1.34;
+    }
+    .prose h3 { margin: 32px 0 10px; font-size: 1.12rem; color: var(--teal); }
+    .prose p { margin: 0 0 18px; }
+    .prose ul, .prose ol { margin: 0 0 20px; padding-left: 1.45em; }
+    .prose li { margin-bottom: 7px; }
+    .prose strong { font-weight: 600; }
+
+    code {
+      padding: 1px 6px; border-radius: var(--radius-s);
+      background: var(--code-bg); color: var(--ink);
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.9em;
+    }
+
+    table {
+      width: 100%; border-collapse: collapse; margin: 6px 0 26px;
+      font-size: 0.93rem; background: var(--paper-raised);
+    }
+    th, td { padding: 9px 12px; border: 1px solid var(--line); vertical-align: top; text-align: left; }
+    th { background: var(--teal-soft); font-weight: 600; }
+
+    .footer {
+      padding: 26px 0 44px; border-top: 1px solid var(--line);
+      font-size: 0.89rem; color: var(--muted);
+    }
+    .footer p { margin: 0 0 6px; }
+
+    @media (max-width: 720px) {
+      body { font-size: 16px; }
+      .contents ol { columns: 1; }
+      table { font-size: 0.88rem; }
+      th, td { padding: 8px 9px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+    }
+    @media print {
+      :root { --paper: #ffffff; --paper-raised: #ffffff; --ink: #111111; --muted: #333333; --code-bg: #eeeeee; }
+      body { background: #ffffff; font-size: 10.5pt; }
+      .page-shell { width: 100%; }
+      .skip-link { display: none; }
+      .prose h2 { break-after: avoid; }
+      table, tr { break-inside: avoid; }
+      thead { display: table-header-group; }
+    }
+
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">본문으로 바로 가기</a>
+<header class="page-shell">
+  <div class="topbar">
+    <span class="profile">기본 문서 계약 · 연령 프로필 없음</span>
+    <span class="origin">원본: <b>docs/개념_정본.md</b> · 커밋 <b>f0afbb3</b> · sha256 <b>df31b5a79e77</b></span>
+  </div>
+  <div class="gennote">
+    이 HTML은 Markdown 정본에서 기계로 생성했다. 정본의 절 순서, 표, 목록, 문장을 그대로 옮기며
+    요약하거나 재해석하지 않는다. 내용을 고칠 때는 이 파일이 아니라 정본을 고치고 다시 생성한다.
+  </div>
+  <nav class="contents" aria-label="문서 목차">
+    <h2 class="contents-title">목차</h2>
+    <ol>
+<li><a href="#1-한-문장-정의">1. 한 문장 정의</a></li>
+<li><a href="#2-출발점과-궁극적-목표">2. 출발점과 궁극적 목표</a></li>
+<li><a href="#3-정본과-근거의-경계">3. 정본과 근거의 경계</a></li>
+<li><a href="#4-현재-확인된-사실과-아직-가설인-것">4. 현재 확인된 사실과 아직 가설인 것</a></li>
+<li><a href="#5-시스템-경계">5. 시스템 경계</a></li>
+<li><a href="#6-관계형-커스터마이징">6. 관계형 커스터마이징</a></li>
+<li><a href="#7-전체-하위-시스템">7. 전체 하위 시스템</a></li>
+<li><a href="#8-권력과-책임-경계">8. 권력과 책임 경계</a></li>
+<li><a href="#9-시스템-불변조건">9. 시스템 불변조건</a></li>
+<li><a href="#10-역사에서-가져온-공격-오라클">10. 역사에서 가져온 공격 오라클</a></li>
+<li><a href="#11-외부-비교-사례-exord-init">11. 외부 비교 사례 — Exord-init</a></li>
+<li><a href="#12-허용되는-주장과-금지되는-주장">12. 허용되는 주장과 금지되는 주장</a></li>
+<li><a href="#13-개념이-살아남는-조건">13. 개념이 살아남는 조건</a></li>
+<li><a href="#14-현재-미결정">14. 현재 미결정</a></li>
+<li><a href="#15-개정-규칙">15. 개정 규칙</a></li>
+    </ol>
+  </nav>
+</header>
+<main id="main" class="page-shell prose">
+<h1>범분야 저장소 내장형 AI 작업체계 — 개념 정본</h1>
+<table>
+<thead><tr><th scope="col">항목</th><th scope="col">값</th></tr></thead>
+<tbody>
+<tr><td>상태</td><td><strong>정본</strong> — 제품 방향과 시스템 경계의 현재 기준</td></tr>
+<tr><td>버전</td><td>0.1</td></tr>
+<tr><td>기준일</td><td>2026-09-21</td></tr>
+<tr><td>제품명</td><td>미정. 현재 저장소 이름은 임시 이름이다</td></tr>
+<tr><td>구현 상태</td><td>연구 가설을 검증하는 초기 골격. 완성 시스템이 아니다</td></tr>
+</tbody></table>
+<p>이 문서는 이 저장소가 <strong>결과적으로 무엇을 만들려는지</strong>를 정한다. 기능 목록이나 현재 구현을 정당화하는 문서가 아니다. 이후 설계·실험·구현이 이 문서와 충돌하면, 충돌을 숨기지 말고 이 문서를 명시적으로 개정하거나 해당 변경을 중단한다.</p>
+<h2 id="1-한-문장-정의">1. 한 문장 정의</h2>
+<p>이 저장소는 저장소의 현재 사실, 과거 사고, 사람의 명시된 의도와 미결 사항, 실행 환경과 가용 자원을 입력으로 받아 <strong>문맥·프롬프트·역할·권한·작업·검토·게이트·CI·검증·진화가 서로 어떻게 의존하는지를 설명 가능한 관계 그래프로 모델링</strong>하고, 각 저장소에 맞는 후보 구성을 제안·적용·검증·복구하는 저장소 내장형 AI 작업체계를 만든다.</p>
+<p>새 증거가 생겼다는 이유만으로 활성 정책을 스스로 바꾸지는 않는다. 후보와 활성 정책을 분리하고, 영향·근거·권한·철회 조건을 확인한 뒤 허용된 범위에서만 승격한다.</p>
+<h2 id="2-출발점과-궁극적-목표">2. 출발점과 궁극적 목표</h2>
+<p>출발점은 <code>public-data-diagnostics</code>(이하 PDD)에서 실제 개발을 거치며 형성된 AI 협업 시스템이다. PDD에는 문서 계층과 지도, 역할과 브리프, 훅과 CI, 검토 절차, ADR, 자율 판단 경계, 실패에서 생긴 검사기가 서로 연결되어 있다. 여기서는 그 도메인 내용을 복사하지 않고, 시행착오에서 드러난 <strong>일반화 가능한 작동 원리와 실패 구조</strong>를 추출한다.</p>
+<p>궁극적 목표는 PDD 복제품이나 범용 게이트 설치기가 아니다. AI 관련 체계가 전혀 없는 저장소부터 일부 규칙만 있는 저장소, 이미 거대한 자체 체계를 가진 저장소까지 진단하고, 서로 다른 기술 스택·아키텍처·조직·사용자 성향·위험도·잔여 자원에 맞춰 <strong>전체 AI 작업 시스템을 함께 조정할 수 있는 새로운 범분야 체계</strong>를 검증하며 구축하는 것이다.</p>
+<p>현재 증거로 이 체계의 새로움·범용성·안전성은 입증되지 않았다. 새로움의 후보는 개별 부품이 아니라 다음 연결이 만드는 비가산 효과다.</p>
+<ol>
+<li>실제로 적재된 문맥과 실제로 발화한 강제 장치의 연결</li>
+<li>규칙·사고 오라클·실행 영수증·철회 조건의 연결</li>
+<li>후보 정책과 활성 정책 사이의 권한·버전·재심 경계</li>
+<li>저장소 상태와 사용자·자원 제약을 함께 푸는 관계형 구성 합성</li>
+</ol>
+<p>동일 자원으로 구성한 기존 도구 조합이 같은 결과를 낸다면 새로운 시스템 원리라는 주장은 축소하거나 폐기한다.</p>
+<h2 id="3-정본과-근거의-경계">3. 정본과 근거의 경계</h2>
+<table>
+<thead><tr><th scope="col">자료</th><th scope="col">지위</th><th scope="col">용도</th></tr></thead>
+<tbody>
+<tr><td>이 문서</td><td>개념 정본</td><td>목적, 범위, 불변조건, 주장 한계</td></tr>
+<tr><td><code>docs/실험_계획.md</code></td><td>검증 정본</td><td>가설, 실험 순서, 성공·실패·중단 기준</td></tr>
+<tr><td><code>docs/개념_정본-쉬운설명-15세.html</code></td><td>파생 설명물</td><td>정본 아님. 충돌하면 이 문서가 우선하며 기준 시점을 표시해야 함</td></tr>
+<tr><td>현재 저장소의 코드·테스트·Git 상태</td><td>구현 사실</td><td>실제로 가능한 것과 불가능한 것의 최종 증거</td></tr>
+<tr><td><code>docs/추출_계획.md</code></td><td>역사 자료</td><td>초기 추출 결정과 당시 측정치</td></tr>
+<tr><td><code>docs/시험_*.md</code></td><td>관측 증거</td><td>특정 fixture·시점에서의 결과. 범용성 근거가 아님</td></tr>
+<tr><td>PDD</td><td>원형 사례와 사고 근거</td><td>일반화 후보 발굴. 이 저장소의 구현 정본은 아님</td></tr>
+<tr><td><code>ai-flow</code></td><td>폐기 대상 과거 설명</td><td>정본 복구 금지</td></tr>
+</tbody></table>
+<p>외부 법·조직 정책·모델 capability·provider 조건·권한의 정본은 Git 저장소가 소유하지 않는다. 저장소에는 출처, 확인 시각, 유효 범위, 철회·분쟁 상태만 참조한다.</p>
+<h2 id="4-현재-확인된-사실과-아직-가설인-것">4. 현재 확인된 사실과 아직 가설인 것</h2>
+<p>증거 강도는 <code>E0</code> 아이디어·비유·AI 합의, <code>E1</code> 버전된 설계·스키마, <code>E2</code> 합성 repo의 양성·음성 시험, <code>E3</code> 한 실제 repo의 재현 관측, <code>E4</code> 여러 repo의 사전 정의 지표, <code>E5</code> 맹검 비교·반례 주입, <code>E6</code> 장기 추적으로 구분한다. 현재 근거는 대부분 E1~E3이며 E4 이상은 아직 없다. 따라서 범용성·장기 효과·인과 우월성을 현재 사실로 쓰지 않는다.</p>
+<h3 id="확인된-사실">확인된 사실</h3>
+<ul>
+<li>현재 구현은 <code>scan</code>, <code>install</code>, <code>uninstall</code>, 로컬 훅과 일부 범용 검사기를 가진 초기 골격이다. 역할, CI, 정책 승격, 관계형 구성 합성, 모델 라우팅 전체는 구현되지 않았다.</li>
+<li>현재 구현에는 티어 조합, 재설치 수렴, 삭제 실패, 테스트 경로 안전성, 원자 적용과 postcondition 등에 확인된 결함이 있다. 외부 저장소 설치를 확대하기 전에 고쳐야 한다.</li>
+<li>PDD의 체계는 풍부하지만 프로젝트 전용 검사기·경로·운영 가정도 함께 가진다. PDD에서 작동했다는 사실만으로 범용성이 성립하지 않는다.</li>
+<li>다중 AI를 호출했다는 사실은 독립 검토를 증명하지 않는다. 공통 학습·프롬프트·오라클· 인센티브 때문에 오류가 상관될 수 있다.</li>
+</ul>
+<h3 id="연구-가설">연구 가설</h3>
+<ul>
+<li>관계 그래프로 문맥과 강제 장치의 실제 연결을 함께 추적하면 거짓 완료와 조용한 미실행을 줄일 수 있다.</li>
+<li>단계형 프리셋보다 제약과 결합 관계를 푸는 구성 합성이 다양한 저장소에 더 잘 적응한다.</li>
+<li>사고에서 나온 반례를 후보 정책으로 만들고, 독립 반증과 승인 뒤에만 승격하면 장기 학습이 가능하다.</li>
+<li>작업 특성과 가용 자원을 이용해 모델·추론 프로필을 추천하면 품질 하한을 지키면서 비용과 토큰을 줄일 수 있다.</li>
+</ul>
+<p>가설은 <code>docs/실험_계획.md</code>의 실패 조건에 걸리면 축소하거나 폐기한다.</p>
+<h2 id="5-시스템-경계">5. 시스템 경계</h2>
+<p>이 시스템은 <strong>저장소 범위의 제어면</strong>이다. 다음을 소유한다.</p>
+<ul>
+<li>저장소 진단과 질문 생성</li>
+<li>목표 구성과 현재 구성의 차이, 충돌, 미확인 상태</li>
+<li>저장소 안의 AI 지침·문맥·프롬프트·역할·검토·게이트·CI 어댑터</li>
+<li>적용 계획, 파일·Git 설정 변경, 설치 매니페스트, 검증 영수증</li>
+<li>후보/활성 정책의 버전과 승격·철회 기록</li>
+<li>모델 선택 요청과 실제 실행 프로필의 영수증</li>
+</ul>
+<p>다음을 소유하거나 보증하지 않는다.</p>
+<ul>
+<li>사실의 진실성, 의미 안전성, 법적 적합성, 의료·군사·정치적 정당성 자체</li>
+<li>저장소 밖 서비스, 조직 권한, 사람의 이해와 동의, 이미 전달된 정보</li>
+<li>외부 메시지·배포·소비된 프롬프트·파생 clone을 포함한 완전한 rollback</li>
+<li>AI 검토자의 독립성 또는 강한 모델의 정확성</li>
+</ul>
+<p>저장소 밖 효과는 되돌림 가능, 보상행동 가능, 비가역 중 하나로 구분하고 별도 영향 대장에 남긴다. <code>ROLLED_BACK</code> 하나로 전체 사회기술 상태가 복원됐다고 표시하지 않는다.</p>
+<h2 id="6-관계형-커스터마이징">6. 관계형 커스터마이징</h2>
+<p>커스터마이징은 단순한 T0~Tn 단계 선택이 아니다. 저장소와 사용자마다 여러 시스템이 톱니바퀴처럼 얽혀 있으므로 하나를 바꾸면 관련 부분을 다시 계산해야 한다.</p>
+<h3 id="6-1-입력-차원">6.1 입력 차원</h3>
+<table>
+<thead><tr><th scope="col">차원</th><th scope="col">예</th></tr></thead>
+<tbody>
+<tr><td>저장소 성숙도</td><td>AI 자산 없음, 일부 문서·훅 존재, 성숙한 자체 체계</td></tr>
+<tr><td>아키텍처·스택</td><td>단일/모노레포, 언어·빌드·패키지·배포·CI</td></tr>
+<tr><td>위험과 영향</td><td>변경 가역성, 피해 크기, 노출 범위, 탐지 가능성</td></tr>
+<tr><td>사용자·조직</td><td>개인/팀, 숙련도, 선호하는 자율성, 승인권과 이의제기 경로</td></tr>
+<tr><td>자원</td><td>잔여 토큰, 시간, 비용, context window, 도구·모델 availability</td></tr>
+<tr><td>데이터 경계</td><td>시크릿, 개인정보, 폐쇄망, provider·residency 제한</td></tr>
+<tr><td>기존 체계</td><td>규칙·역할·프롬프트·훅·CI·정책의 소유자와 충돌 관계</td></tr>
+</tbody></table>
+<p>잔여 토큰과 모델 capability 같은 값은 변하는 외부 사실이다. 확인 시점과 출처를 함께 기록하고, 알 수 없거나 오래됐으면 낮은 위험으로 간주하지 않는다.</p>
+<p>입력과 조정 손잡이를 섞지 않는다. 위 값은 조사·질의로 얻는 입력이고, 실제로 조정하는 것은 규칙의 가시성과 소유 방식, 훅 연결, 게이트 집합과 강제 지점, 문맥 배치와 예산, 검토 깊이와 정보 분리, 모델 프로필 상한, 영수증 상세도·보존, 진화 루프, 트랜잭션 강도다. 입력 사실을 사용자가 고른 설정처럼 쓰거나 사용자 선호를 repo에서 추측해 확정하지 않는다.</p>
+<h3 id="6-2-관계-유형">6.2 관계 유형</h3>
+<p>구성 요소 사이에는 최소한 다음 관계가 필요하다.</p>
+<table>
+<thead><tr><th scope="col">관계</th><th scope="col">의미</th><th scope="col">예</th></tr></thead>
+<tbody>
+<tr><td><code>requires</code></td><td>한 요소가 다른 요소를 필수화</td><td>훅 활성화는 실제 검사기와 postcondition을 요구</td></tr>
+<tr><td><code>enables</code></td><td>선행조건이 있어야 선택 가능</td><td>진입점 문서가 있어야 문맥 예산 게이트를 켤 수 있음</td></tr>
+<tr><td><code>implies</code></td><td>선택이 다른 후보를 유도하지만 자동 강제하지 않음</td><td>장문 역할은 조건부 로더를 권고</td></tr>
+<tr><td><code>forbids</code></td><td>둘을 동시에 쓸 수 없음</td><td>서로 다른 단일 소유 훅 경로</td></tr>
+<tr><td><code>substitutes</code></td><td>하나가 다른 기전을 충분히 대체</td><td>검증된 기존 통제가 있으면 같은 통제를 중복 설치하지 않음</td></tr>
+<tr><td><code>synchronizes</code></td><td>같이 버전·갱신돼야 함</td><td>역할 정본과 provider별 생성물</td></tr>
+<tr><td><code>bounds</code></td><td>안전·비용 상하한을 둠</td><td>사용자 기본 모델 프로필은 자동 실행 상한</td></tr>
+<tr><td><code>trades_off</code></td><td>한쪽 증가가 다른 비용을 키움</td><td>검토 폭과 토큰·시간</td></tr>
+<tr><td><code>shares_budget</code></td><td>여러 요소가 같은 한정 자원을 사용</td><td>문맥·검토자 수·영수증 검토가 잔여 토큰을 공유</td></tr>
+<tr><td><code>erodes</code></td><td>선언은 유지되지만 다른 요소가 실효를 깎음</td><td>느린 훅이 우회를 늘려 실제 강제력을 낮춤</td></tr>
+<tr><td><code>common_mode</code></td><td>같은 원인으로 방어층이 함께 실패</td><td>같은 adapter가 gate·router·receipt를 모두 오염</td></tr>
+<tr><td><code>compensates</code></td><td>한쪽 축소에 보완 장치가 필요</td><td>짧은 문맥 대신 명시적 검색·영수증 강화</td></tr>
+<tr><td><code>invalidates</code></td><td>변경이 기존 증거를 무효화</td><td>훅 변경은 과거 설치 검증 영수증을 무효화</td></tr>
+<tr><td><code>derives</code></td><td>정본에서 생성됨</td><td>공통 역할 정의에서 provider별 역할 파일 생성</td></tr>
+<tr><td><code>verifies</code></td><td>별도 관측으로 주장을 시험</td><td>설치 후 실제 훅 경로와 실행 결과 확인</td></tr>
+</tbody></table>
+<p>단순 양·음 상관으로는 부족하다. 조건, 방향, 강도, 적용 범위, 우선순위, 출처, 버전, 충돌 해결권자를 가진 제약으로 표현한다.</p>
+<p>특히 <code>erodes</code>와 <code>common_mode</code>는 켜짐/꺼짐으로 환원하지 않는다. 선언상 활성인 통제가 우회·공통 의존 때문에 약해질 수 있기 때문이다. 관계 그래프는 설정값뿐 아니라 우회율, 오류 상관, 실제 발화처럼 <strong>실효값</strong>을 관측해야 한다.</p>
+<h3 id="6-3-구성-합성-계약">6.3 구성 합성 계약</h3>
+<ol>
+<li><strong>관측</strong> — 파일과 런타임에서 현재 상태를 읽되 아무것도 쓰지 않는다.</li>
+<li><strong>분류</strong> — 관측 사실, 추론, 사용자 의도, 미확인을 분리한다.</li>
+<li><strong>제약 해석</strong> — 필수·배제·동기화·상쇄·예산·권한 관계를 계산한다.</li>
+<li><strong>최소 질문</strong> — 관측으로 결정할 수 없고 결과를 실제로 바꾸는 것만 사람에게 묻는다.</li>
+<li><strong>후보 구성</strong> — 선택 결과뿐 아니라 따라오는 추가·삭제·비활성화와 이유를 보여준다.</li>
+<li><strong>영향 검토</strong> — 기존 시스템 소유권, 안전 하한, 외부 효과, 복구 한계를 확인한다.</li>
+<li><strong>계획 고정</strong> — 승인된 계획의 입력 snapshot과 해시를 고정한다.</li>
+<li><strong>원자 적용</strong> — 허용된 경계 안에서 적용하고 부분 실패 증거를 보존한다.</li>
+<li><strong>독립 검증</strong> — 생성한 계획과 다른 관측 경로로 실제 적재·실행·결과를 확인한다.</li>
+<li><strong>지속 재평가</strong> — 환경 변화가 제약 해를 무효화하면 조용히 바꾸지 않고 새 후보를 만든다.</li>
+</ol>
+<p>자원이 줄었다고 필수 안전 장치를 자동으로 제거하지 않는다. 선택 문맥 축약, 작업 분할, 낮은 비용 프로필 추천은 가능하지만 안전 하한을 만족할 수 없으면 <code>BLOCKED</code> 또는 <code>PENDING_APPROVAL</code>로 멈춘다.</p>
+<h3 id="6-4-제약을-다시-제약한다-anti-ratchet">6.4 제약을 다시 제약한다 — anti-ratchet</h3>
+<p>안전 규칙도 비용과 권력을 만든다. 사고가 날 때마다 금지와 승인 단계를 더하기만 하면 시스템은 안전해지는 대신 합법적인 작업까지 막고, 사용자는 우회 경로를 만든다. 따라서 제약은 영구 불변식이 아니라 다음 계약을 가진 1급 정책 객체다.</p>
+<ul>
+<li>보호하려는 실패와 근거</li>
+<li>적용 범위와 발동 조건</li>
+<li>제약의 소유자, 승인자, 이의제기·재심 경로</li>
+<li>예상 비용과 실제 false block·blocked-safe-work 측정치</li>
+<li>만료·재검토 시점, 완화·삭제 기준</li>
+<li>안전한 예외 또는 break-glass 조건과 보상 검증</li>
+<li>다른 제약과 결합해 생기는 교착·공통모드</li>
+</ul>
+<p>즉시 실패를 막는 안전 하한도 조용히 우회할 수는 없지만, <strong>왜 그 하한이 존재하며 언제 다른 기전으로 대체할 수 있는지</strong>는 검토 가능해야 한다. fail-closed가 복구 경로까지 닫아 영구 교착을 만들면 안전 성공이 아니다. 격리, 읽기 전용 진단, 별도 승인 복구처럼 위험을 넓히지 않는 탈출 경로를 설계한다.</p>
+<p><strong>안전 하한은 몰래 낮추지 않는다. 그러나 하한을 지키는 방법은 검토하고 바꿀 수 있다.</strong> 일반 제약은 만료·완화·삭제될 수 있지만, 안전 하한은 같은 위험을 맡는 다른 기전이 검증됐을 때만 바뀐다.</p>
+<h2 id="7-전체-하위-시스템">7. 전체 하위 시스템</h2>
+<table>
+<thead><tr><th scope="col">하위 시스템</th><th scope="col">책임</th></tr></thead>
+<tbody>
+<tr><td>진단기</td><td>repo·스택·AI 자산·권한·훅·CI·위험·자원을 읽기 전용으로 조사</td></tr>
+<tr><td>질문·의도 구조화</td><td>명시된 의도, 충돌, 미결, 결정권을 기록. 숨은 의도를 추측해 확정하지 않음</td></tr>
+<tr><td>관계·구성 엔진</td><td>제약 그래프를 풀어 후보 구성과 파급 효과를 설명</td></tr>
+<tr><td>문맥·프롬프트 관리</td><td>자동 적재 예산, 점진적 공개, 출처·버전·실제 적재 확인</td></tr>
+<tr><td>역할·협업</td><td>도구 중립 역할 정본, provider별 파생, lead/secondary, 브리프와 인계</td></tr>
+<tr><td>작업·오케스트레이션</td><td>계획, 의존성, 병렬성, 권한, 완료·실패·미확인 상태 관리</td></tr>
+<tr><td>훅·CI·검증</td><td>로컬 빠른 피드백과 독립 CI, 실제 연결과 실행 결과 확인</td></tr>
+<tr><td>트랜잭션 커널</td><td>confinement, 잠금, CAS, 원자 쓰기, journal, postcondition, 복구</td></tr>
+<tr><td>증거·제어 그래프</td><td>주장·근거·적재·실행·검증·철회 관계와 <code>not-run</code>을 추적</td></tr>
+<tr><td>모델 라우터</td><td>과제에 필요한 최소 능력을 추천하고 상한 초과 승인·불일치를 처리</td></tr>
+<tr><td>적대 검토</td><td>서로 다른 공격 축과 raw-state 오라클로 공통 오류를 탐지</td></tr>
+<tr><td>정책 진화</td><td>사고→후보→반증→승격→관찰→철회/만료의 폐루프 관리</td></tr>
+<tr><td>개인정보·감사</td><td>최소 영수증, 접근·보존·삭제 정책, 민감값 비기록</td></tr>
+</tbody></table>
+<p>게이트는 이 중 하나이며 전체 시스템의 이름이나 경계가 아니다.</p>
+<h2 id="8-권력과-책임-경계">8. 권력과 책임 경계</h2>
+<ul>
+<li>AI는 사실을 조사하고 후보·대안·영향을 제안할 수 있다. 불명확한 사람의 의도나 조직의 정당성을 스스로 확정하지 않는다.</li>
+<li>더 강한 모델은 더 넓은 권한을 자동으로 얻지 않는다. 모델 능력과 실행 권한은 별도 축이다.</li>
+<li>제공자별 사용자 기본 모델·추론 프로필은 자동 실행 상한이다. 이를 넘는 프로필은 이유, 비용·시간·데이터·권한 차이를 보여주고 승인받는다.</li>
+<li>필요한 안전 하한이 상한보다 높으면 낮은 프로필로 강행하지 않는다.</li>
+<li>requested/effective 모델, 추론 강도, 도구, 권한, 폴백을 기록하며 조용한 상향·하향·폴백을 금지한다.</li>
+<li>정책 작성자, 승인자, 검증자, 시스템 관리자가 같은 이해관계에 묶이면 형식적 역할 분리는 독립성으로 인정하지 않는다.</li>
+<li>repo owner와 피해 당사자가 다를 수 있다. 팀·조직 적용 전에는 이의제기, 재심, 철회 권한을 별도로 설계해야 한다.</li>
+</ul>
+<p>초기 모델 라우터의 권한은 추천, 부족 감지, 상한 초과 승인 요청, 불일치 차단, 영수증에 한정한다. 자동 선택은 심각도 가중 false-low-risk와 escalation calibration이 검증된 뒤에만 넓힌다.</p>
+<h2 id="9-시스템-불변조건">9. 시스템 불변조건</h2>
+<ol>
+<li><strong>조사와 변경 분리</strong> — 진단은 쓰지 않는다.</li>
+<li><strong>출처와 상태 분리</strong> — 관측, 확인된 사실, 추론, 결정, 미확인을 섞지 않는다.</li>
+<li><strong>기존 소유권 보존</strong> — 모르는 기존 파일·훅·정책을 덮거나 제거하지 않는다.</li>
+<li><strong>후보와 활성 분리</strong> — 새 증거와 새 규칙은 자동으로 활성화되지 않는다.</li>
+<li><strong>계획-적용 일치</strong> — 승인 후 입력이 바뀌면 재계획한다.</li>
+<li><strong>경계 제한</strong> — repo 밖 또는 승인 범위 밖 변경은 금지한다.</li>
+<li><strong>검증된 무행동</strong> — <code>not-applicable</code>, <code>not-triggered</code>, <code>not-run</code>, <code>blocked</code>, <code>unverifiable</code>을 성공과 구분한다.</li>
+<li><strong>독립 postcondition</strong> — “명령 성공”이 아니라 실제 파일·Git 설정·실행 효과를 확인한다.</li>
+<li><strong>부분 실패 보존</strong> — 실패 증거를 지우고 성공을 선언하지 않는다.</li>
+<li><strong>가역성 정직성</strong> — 되돌릴 수 없는 외부 효과를 rollback으로 부르지 않는다.</li>
+<li><strong>안전 하한 우선</strong> — 자원 부족과 편의가 필수 하한을 조용히 낮추지 않는다.</li>
+<li><strong>민감정보 최소화</strong> — 로그·영수증·프롬프트에 시크릿과 불필요한 개인정보를 남기지 않는다.</li>
+<li><strong>반증 가능성</strong> — 실패가 핵심 주장을 실제로 축소하거나 폐기할 수 있어야 한다.</li>
+<li><strong>제약의 비영구성</strong> — 제약마다 근거·비용·재심·만료·대체 조건을 둔다. 추가만 되고 제거되지 않는 안전 규칙을 정상으로 보지 않는다.</li>
+</ol>
+<h2 id="10-역사에서-가져온-공격-오라클">10. 역사에서 가져온 공격 오라클</h2>
+<p>역사 사례는 권위를 빌리는 비유가 아니라 반복 가능한 실패 메커니즘을 찾는 공격 오라클로 쓴다. 분야의 규제 강도나 조직 형태를 그대로 복사하지 않는다.</p>
+<table>
+<thead><tr><th scope="col">역사 렌즈</th><th scope="col">이 시스템에 가하는 질문</th></tr></thead>
+<tbody>
+<tr><td>737 MAX</td><td>위임받은 검증자가 설계자와 같은 정보·인센티브에 종속되지 않았는가</td></tr>
+<tr><td>후쿠시마</td><td>정책 촉진자와 위험 통제자가 한 권력 경로에 합쳐지지 않았는가</td></tr>
+<tr><td>챌린저·컬럼비아</td><td>반복된 무사고와 예외가 위험 수용 기준을 낮추지 않았는가</td></tr>
+<tr><td>그렌펠</td><td>정식 문서와 승인 체계가 영향을 받는 사람의 경고를 배제하지 않았는가</td></tr>
+<tr><td>의료 안전</td><td>보고량을 학습으로, 낮은 근거 확실성을 낮은 피해로 오인하지 않았는가</td></tr>
+<tr><td>금융위기</td><td>서로 다른 기관·모델이 실제로는 같은 데이터와 인센티브로 함께 실패하지 않는가</td></tr>
+<tr><td>2003 대정전</td><td>가시성 상실과 단일 adapter 실패가 여러 방어층으로 전파되지 않는가</td></tr>
+<tr><td>정보 실패</td><td>철회된 출처와 낮아진 신뢰도가 파생 주장·정책까지 전파되는가</td></tr>
+<tr><td>과학 재현성</td><td>반례를 예외로 흡수해 이론을 영구히 보호하지 않는가</td></tr>
+</tbody></table>
+<p>이 표는 부록이 아니다. 설계 검토와 <code>docs/실험_계획.md</code>의 공격군에서 항상 사용한다.</p>
+<h2 id="11-외부-비교-사례-exord-init">11. 외부 비교 사례 — Exord-init</h2>
+<p>2026-09-21 현재 공개된 <a href="https://github.com/kimNarr/Exord-init/blob/main/README.ko.md" rel="noopener noreferrer">Exord-init 한국어 README</a>, <a href="https://github.com/kimNarr/Exord-init/blob/main/docs/spec/safety.md" rel="noopener noreferrer">안전 계약</a>, <a href="https://github.com/kimNarr/Exord-init/blob/main/docs/spec/protocol.md" rel="noopener noreferrer">프로토콜 계약</a>을 설계 비교 자료로 검토했다. 이는 README와 공개 계약의 검토이며 구현 전체에 대한 독립 검증은 아니다.</p>
+<p>가져와 실험할 가치가 큰 기전은 다음과 같다.</p>
+<ul>
+<li>대화형 Skill과 결정적 mutation 엔진의 권한 분리</li>
+<li>의도 → canonical plan hash → 그 계획에 결합된 승인 → 대상 재검사 → 적용의 연결</li>
+<li>rooted filesystem, symlink 거부, create-only/원자 publication 같은 경로 안전</li>
+<li>미완료 run을 숨기지 않는 journal·복구 검사와 별도 복구 승인</li>
+<li>모르는 schema·validation과 미구현 기능의 명시적 실패</li>
+<li>QUICK이 질문은 줄여도 안전 검사는 줄이지 않는다는 분리</li>
+<li>bounded inventory와 민감값 대신 수치만 보고하는 방식</li>
+</ul>
+<p>그대로 보편 규칙으로 가져오지 않을 것은 다음과 같다.</p>
+<ul>
+<li>“현재 대화의 한 사용자만 승인 가능”을 팀·조직의 영구 권한 모델로 만드는 것</li>
+<li>빈 디렉터리/allowlist CREATE 제약을 모든 도입 모드의 상한으로 만드는 것</li>
+<li>판독 불가 run 하나가 범위와 기한 없이 모든 새 작업을 막게 하는 것</li>
+<li><code>--yes</code> 부재, 특정 런타임, create-only 방식, 특정 <code>TASK.md</code> 위치를 개념 불변식으로 만드는 것</li>
+<li>모든 불확실성에 동일한 fail-closed를 적용하고 안전한 격리·축소 실행 경로를 없애는 것</li>
+</ul>
+<p>이 비교가 주는 핵심은 “더 많은 제약”이 아니다. <strong>결정적 mutation에는 강한 계약을 쓰되, 각 제약의 목적·범위·비용·재심·삭제 조건까지 함께 모델링해야 한다</strong>는 것이다.</p>
+<h2 id="12-허용되는-주장과-금지되는-주장">12. 허용되는 주장과 금지되는 주장</h2>
+<p>현재 허용되는 주장은 다음과 같다.</p>
+<ul>
+<li>저장소 범위의 주장-통제 추적과 거짓 무행동 식별을 개선할 가능성이 있다.</li>
+<li>관계형 구성 합성과 후보/활성 정책 경계는 검증할 가치가 있는 연구 가설이다.</li>
+<li>최소 트랜잭션 안전은 외부 설치 실험의 선행조건이다.</li>
+</ul>
+<p>현재 다음을 주장하지 않는다.</p>
+<ul>
+<li>사람의 의도를 컴파일한다.</li>
+<li>그래프와 영수증이 진실·안전·정당성을 보증한다.</li>
+<li>Git 저장소가 전체 사회기술 체계의 정본이다.</li>
+<li>rollback이 이미 소비·전파된 모든 효과를 복원한다.</li>
+<li>다중 AI가 본질적으로 독립적이다.</li>
+<li>모델 라우터가 최소 충분 프로필을 이미 정확히 안다.</li>
+<li>PDD 사례만으로 범용성·독창성·장기 효과가 입증됐다.</li>
+</ul>
+<h2 id="13-개념이-살아남는-조건">13. 개념이 살아남는 조건</h2>
+<p>이 체계는 최강의 기존 도구 조합과 같은 자원 조건에서 비교한다. 다음 중 하나가 반복되면 개념이나 범위를 축소한다.</p>
+<ul>
+<li>관계 모델을 제거해도 안전·정확성·판단 비용이 유의미하게 나빠지지 않는다.</li>
+<li>문서·역할·검사 수만 늘고 실제 적재·실행·시정조치가 개선되지 않는다.</li>
+<li>다양한 repo에서 질문과 설정 충돌이 늘어 수동 구성보다 순비용이 커진다.</li>
+<li>다중 AI 수가 늘어도 오류 상관이 줄지 않는다.</li>
+<li>정책이 축적되지만 폐기·만료·재개봉이 작동하지 않는다.</li>
+<li>사용자가 체계를 우회하는 shadow process가 늘고 시정조치 종결률이 개선되지 않는다.</li>
+<li>제약 수와 차단 시간은 증가하지만 실제 사고·복구 지표는 개선되지 않는다.</li>
+</ul>
+<p>다음은 평균 성능으로 상쇄할 수 없는 즉시 실패다.</p>
+<ul>
+<li>승인 없는 정책 활성화 또는 무권한 변경</li>
+<li>repo 경계 밖 변경</li>
+<li>거짓 <code>VERIFIED</code></li>
+<li>민감값 유출</li>
+<li>필수 안전 하한을 알리지 않고 낮춘 실행</li>
+</ul>
+<p>구체 실험과 판정 순서는 <code>docs/실험_계획.md</code>가 정한다.</p>
+<h2 id="14-현재-미결정">14. 현재 미결정</h2>
+<p>다음은 기본값으로 몰래 정하지 않는다. 해당 단계에 들어가기 전에 사용자와 권한 있는 당사자가 결정한다.</p>
+<ol>
+<li>피해·근거 확실성·가역성·노출·탐지 가능성의 등급</li>
+<li>개인/팀 환경의 정책 승인·거부·재심 권한</li>
+<li>repo 권한이 없는 피해 당사자의 이의제기와 복구 경로</li>
+<li>외부 사실의 권위 출처·만료·철회·분쟁 처리</li>
+<li>외부 효과의 금지·보상·비가역 분류</li>
+<li>감사 데이터의 목적·접근·보존·삭제권</li>
+<li>예외와 부정 결과의 만료·재개봉 기준</li>
+<li>제공자별 기본 모델 상한과 금지 provider·권한·데이터 경계</li>
+<li>관계 제약의 소유자·승인자와 <code>trades_off</code> 충돌의 결정권자</li>
+<li>새 개념을 인정할 안전 비열등성·우월성·비용 임계값</li>
+<li>첫 파일럿의 범위와 팀 기능을 열 시점</li>
+</ol>
+<h2 id="15-개정-규칙">15. 개정 규칙</h2>
+<p>이 문서의 목적·경계·불변조건을 바꾸는 변경은 다음을 함께 남긴다.</p>
+<ol>
+<li>바꾸려는 주장과 근거</li>
+<li>반대 증거와 역사 공격 오라클 결과</li>
+<li>영향받는 구현·실험·문서</li>
+<li>승인권자와 이의제기 경로</li>
+<li>철회 조건과 재검토 시점</li>
+</ol>
+<p>새 기능이 생겼다는 이유만으로 개념을 넓히지 않는다. 실험에서 반증된 주장을 지키기 위해 예외를 계속 추가하지 않는다.</p>
+</main>
+<footer class="footer page-shell">
+  <p>범분야 저장소 내장형 AI 작업체계 — 개념 정본의 HTML 판. 제품명 미정.</p>
+  <p>충돌하면 Markdown 정본이 우선한다.</p>
+</footer>
+</body>
+</html>

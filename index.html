@@ -3,8 +3,9 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="color-scheme" content="light">
+  <meta name="color-scheme" content="light dark">
   <meta name="description" content="범분야 저장소 내장형 AI 작업체계를 성인용 15세 비유 설명 프로필로 풀어낸 문서">
+  <meta name="source-revision" content="d5f39e0">
   <title>AI와 함께 일하는 저장소를 설계한다 — 15세처럼 쉽게</title>
   <!--
     파생 정본: docs/개념_정본.md, docs/실험_계획.md
@@ -670,6 +671,35 @@
       .footer { grid-template-columns: 1fr; }
     }
 
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --paper: #121b1a;
+        --paper-raised: #192625;
+        --ink: #eef3ee;
+        --muted: #b7c3bd;
+        --line: #394a45;
+        --line-strong: #64736e;
+        --teal: #75d4c2;
+        --teal-soft: #173b35;
+        --ochre: #e4ad63;
+        --ochre-soft: #402f19;
+        --red: #f28f84;
+        --red-soft: #452723;
+        --blue: #87bee5;
+        --blue-soft: #1f3442;
+        --white: #ffffff;
+        --shadow: 0 14px 34px rgba(0, 0, 0, 0.28);
+      }
+      body {
+        background:
+          linear-gradient(rgba(238, 243, 238, 0.035) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(238, 243, 238, 0.035) 1px, transparent 1px),
+          var(--paper);
+        background-size: 28px 28px;
+      }
+      .contents { background: rgba(18, 27, 26, 0.94); }
+    }
+
     @media (prefers-reduced-motion: reduce) {
       html { scroll-behavior: auto; }
       *, *::before, *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
@@ -703,6 +733,10 @@
 
     <div class="hero">
       <div>
+        <p class="derivative-notice">
+          이 HTML은 정본이 아니라 쉬운 설명 동반본이다. 내용이 충돌하면
+          <b>개념 정본</b>과 <b>실험 계획</b>이 우선한다.
+        </p>
         <h1>AI에게 일을 시키는 게 아니라,<br><span class="soft">일하는 체계</span>를 만든다.</h1>
         <p class="lead">
           이 프로젝트는 검사 몇 개를 설치하는 도구가 아니다. 서로 다른 저장소에서 AI와
@@ -711,18 +745,25 @@
         </p>
         <div class="status-strip" aria-label="현재 상태">
           <strong>현재</strong><span>아이디어를 검증하는 초기 골격. 완성품이 아니다.</span>
-          <strong>목표</strong><span>저장소마다 다른 조건을 읽고, 맞는 구성을 설명하며, 안전하게 적용하는 체계.</span>
+          <strong>목표</strong><span>저장소마다 다른 조건을 읽고 맞는 구성을 설명하며, 계획과 다른 결과가 나오면 멈추는 체계. 바꾼 내용이 옳은지는 도구가 결정하지 않는다.</span>
         </div>
+        <p class="basis">기준일 2026-09-22 · 저장소 기준 d5f39e0 · 원본 SHA-256 df31b5a7… / 813dbc34…</p>
       </div>
 
       <figure class="machine" aria-labelledby="machine-caption">
         <div class="gear one"><div><strong>문맥</strong><span>AI가 무엇을 읽나</span></div></div>
         <div class="gear two"><div><strong>역할</strong><span>누가 무엇을 하나</span></div></div>
         <div class="gear three"><div><strong>검증</strong><span>정말 실행됐나</span></div></div>
-        <div class="gear four"><div><strong>권한</strong><span>누가 결정하나</span></div></div>
+        <div class="gear four"><div><strong>훅·CI</strong><span>어디서 강제되나</span></div></div>
+        <div class="human-boundary">사람의 결정<br>기계가 정하지 않음</div>
         <figcaption id="machine-caption" class="machine-caption">
-          한 톱니를 바꾸면 다른 톱니도 영향을 받는다. 이 관계를 숨기지 않고 계산하는 것이 핵심이다.
+          톱니는 도구가 추적할 수 있는 연결만 보여 준다. 무엇이 옳고 누가 결정할지는 기계 밖 사람의 몫이다.
         </figcaption>
+        <dl class="machine-equivalence" aria-label="톱니 관계의 텍스트 설명">
+          <dt>문맥 → 역할</dt><dd>읽는 정보가 줄면 역할 브리프나 검색이 그 빈자리를 보완해야 한다.</dd>
+          <dt>역할 → 검증</dt><dd>검토자가 바뀌면 과거 검증의 독립성과 근거를 다시 확인한다.</dd>
+          <dt>훅·CI → 검증</dt><dd>강제 지점이 바뀌면 “실제로 돌았다”는 과거 영수증이 무효가 될 수 있다.</dd>
+        </dl>
       </figure>
     </div>
   </header>
@@ -737,6 +778,7 @@
       <a href="#example">예시</a>
       <a href="#limits">제약의 제약</a>
       <a href="#myths">오해 금지</a>
+      <a href="#decisions">사람이 정할 것</a>
       <a href="#experiments">어떻게 증명하나</a>
     </nav>
   </div>
@@ -812,15 +854,21 @@
       </div>
 
       <ol class="flow" aria-label="작동 흐름 여덟 단계">
-        <li><b>관측</b><span>현재 파일·Git·훅·CI·도구를 읽기만 한다.</span></li>
-        <li><b>분류</b><span>사실, 추론, 사람의 결정, 모르는 것을 나눈다.</span></li>
-        <li><b>질문</b><span>관측으로 못 정하고 결과를 바꾸는 것만 묻는다.</span></li>
-        <li><b>후보 계획</b><span>추가·삭제·동기화될 항목과 이유를 보여 준다.</span></li>
-        <li><b>승인</b><span>정확한 계획과 영향 범위에 결정을 묶는다.</span></li>
-        <li><b>적용</b><span>허용된 경계 안에서 원자적으로 바꾼다.</span></li>
-        <li><b>검증</b><span>실제 적재와 실행을 다른 관측 경로로 확인한다.</span></li>
-        <li><b>진화</b><span>새 증거는 후보가 되고, 반증·승인 뒤에만 정책이 된다.</span></li>
+        <li><em class="state running">현재 동작</em><b>관측</b><span><code>scan</code>이 파일·Git·훅·도구 일부를 읽기만 한다.</span></li>
+        <li><em class="state partial">부분 구현</em><b>분류</b><span>일부 구조는 찾지만 기능 중복·권력·위험 벡터 전체는 아직 못 본다.</span></li>
+        <li><em class="state missing">미구현</em><b>질문</b><span>관측으로 못 정하고 결과를 바꾸는 것만 묻는다.</span></li>
+        <li><em class="state partial">초기 골격</em><b>후보 계획</b><span><code>install --dry-run</code>은 있지만 관계형 파급 효과는 아직 없다.</span></li>
+        <li><em class="state missing">미구현</em><b>승인</b><span>정확한 계획과 영향 범위에 결정을 묶는다.</span></li>
+        <li><em class="state partial">안전 미달</em><b>적용</b><span>설치 코드는 있으나 원자성·잠금·복구 결함을 먼저 고쳐야 한다.</span></li>
+        <li><em class="state partial">부분 구현</em><b>검증</b><span>검사기 셋은 있으나 전체 적재·실행 폐루프는 아직 없다.</span></li>
+        <li><em class="state missing">미구현</em><b>진화</b><span>새 증거를 후보로 만들고 반증·승인 뒤 정책으로 승격하는 흐름이다.</span></li>
       </ol>
+
+      <div class="flow-exits" aria-label="성공으로 처리하지 않는 이탈 상태">
+        <div><b>BLOCKED</b><span>안전·권한·자원 하한을 못 맞춰 멈췄다. 실패를 숨긴 성공이 아니다.</span></div>
+        <div><b>NOT-RUN</b><span>검사를 실행하지 않았다. 대상이 아니었던 것과도 구분한다.</span></div>
+        <div><b>UNVERIFIABLE</b><span>확인할 증거가 없다. 다시 확인하기 전까지 통과가 아니다.</span></div>
+      </div>
     </section>
 
     <section id="parts">
@@ -837,14 +885,14 @@
           <div><strong>저장소의 현재 사실</strong><small>코드 · 문서 · Git · 사람의 결정 · 미결</small></div>
         </div>
         <dl class="parts">
-          <div><dt>진단과 질문</dt><dd>무엇이 있고 무엇을 모르는지 찾는다.</dd></div>
-          <div><dt>문맥과 프롬프트</dt><dd>필요한 정보만 실제로 적재됐는지 확인한다.</dd></div>
-          <div><dt>역할과 협업</dt><dd>누가 lead이고 누가 어떤 축을 반박하는지 정한다.</dd></div>
-          <div><dt>훅과 CI</dt><dd>로컬 피드백과 공유 강제를 구분해 연결한다.</dd></div>
-          <div><dt>트랜잭션</dt><dd>계획 밖 변경과 부분 실패를 막고 증거를 남긴다.</dd></div>
-          <div><dt>모델 라우팅</dt><dd>필요 능력을 추천하되 권한과 성능을 교환하지 않는다.</dd></div>
-          <div><dt>증거와 검증</dt><dd>안 돈 검사와 확인 불가를 성공에서 분리한다.</dd></div>
-          <div><dt>정책 진화</dt><dd>사고를 규칙으로 바로 굳히지 않고 시험·만료·철회한다.</dd></div>
+          <div><em class="state partial">부분 구현</em><dt>진단과 질문</dt><dd>읽기 전용 진단은 있으나 최소 질문 생성은 아직 없다.</dd></div>
+          <div><em class="state partial">부분 구현</em><dt>문맥과 프롬프트</dt><dd>문맥 예산 검사는 있으나 실제 적재 영수증은 아직 없다.</dd></div>
+          <div><em class="state missing">미구현</em><dt>역할과 협업</dt><dd>누가 lead이고 누가 어떤 축을 반박하는지 정하는 목표다.</dd></div>
+          <div><em class="state partial">로컬만</em><dt>훅과 CI</dt><dd>로컬 훅 골격은 있으나 공유 CI 강제는 아직 없다.</dd></div>
+          <div><em class="state missing">안전 커널 미구현</em><dt>트랜잭션</dt><dd>계획 밖 변경과 부분 실패를 막는 핵심 선행 작업이다.</dd></div>
+          <div><em class="state missing">미구현</em><dt>모델 라우팅</dt><dd>추천·상한 초과 승인·effective 값 영수증부터 시험할 목표다.</dd></div>
+          <div><em class="state partial">검사기 셋</em><dt>증거와 검증</dt><dd>일부 검사는 있지만 전체 상태·독립 오라클은 아직 없다.</dd></div>
+          <div><em class="state missing">미구현</em><dt>정책 진화</dt><dd>사고를 후보로 만들고 시험·만료·철회하는 목표다.</dd></div>
         </dl>
       </div>
     </section>
@@ -858,6 +906,17 @@
         </p>
       </div>
 
+      <div class="core-relations" aria-label="관계형 모델의 핵심 두 관계">
+        <article>
+          <h3><code>erodes</code> — 켜져 있어도 효과가 닳는다</h3>
+          <p>훅이 너무 느리면 사람들이 <code>--no-verify</code>를 쓰기 시작한다. 설정은 켜져 있지만 실제 강제력은 사라진다.</p>
+        </article>
+        <article>
+          <h3><code>common_mode</code> — 달라 보여도 함께 틀린다</h3>
+          <p>여러 AI와 검사가 같은 자료·어댑터·성공 기준을 쓰면 방어층 수가 늘어도 같은 이유로 동시에 실패한다.</p>
+        </article>
+      </div>
+
       <dl class="relation-list">
         <div><dt>requires</dt><dd>A를 켜면 B가 반드시 필요하다.</dd></div>
         <div><dt>forbids</dt><dd>A와 B를 동시에 쓸 수 없다.</dd></div>
@@ -866,9 +925,8 @@
         <div><dt>shares_budget</dt><dd>문맥·검토·시간이 같은 한정 자원을 나눠 쓴다.</dd></div>
         <div><dt>compensates</dt><dd>A를 줄였으면 다른 장치로 빈자리를 보완한다.</dd></div>
         <div><dt>invalidates</dt><dd>A가 바뀌면 과거 검증 결과가 더는 유효하지 않다.</dd></div>
-        <div><dt>erodes</dt><dd>설정은 켜져 있지만 우회 때문에 실제 효과가 약해진다.</dd></div>
-        <div><dt>common_mode</dt><dd>서로 다른 방어처럼 보여도 같은 원인으로 함께 틀린다.</dd></div>
       </dl>
+      <p>위 핵심 두 관계를 빼고도 같은 결과가 나온다면 “기존 도구를 묶은 것 이상”이라는 주장은 폐기한다.</p>
     </section>
 
     <section id="example">
@@ -883,17 +941,22 @@
       <div class="example">
         <div class="example-story">
           <h3>관측된 상황</h3>
-          <p>React 프런트엔드와 Python 서버가 한 저장소에 있고, 팀원마다 다른 AI를 쓴다.
-          `AGENTS.md`는 있지만 실제로 모든 도구가 읽는지는 모른다. 로컬 훅은 한 명에게만 있다.</p>
+          <p><span class="source-label">읽은 것</span> React 프런트엔드와 Python 서버가 한 저장소에 있고 <code>AGENTS.md</code>가 있다.</p>
+          <p><span class="source-label">당신의 말</span> 다섯 팀원이 서로 다른 AI를 쓴다.</p>
+          <p><span class="source-label">추론</span> 로컬 훅만으로는 팀 전체 강제가 되지 않을 가능성이 높다.</p>
+          <p><span class="source-label">모름</span> 모든 AI가 실제로 지침을 읽는지, 누가 예외를 승인하는지 확인되지 않았다.</p>
           <p class="question">시스템은 “강한 설정으로 전부 설치할까요?”라고 묻지 않는다.</p>
         </div>
 
         <div class="cascade" aria-label="예시에서 발생하는 연쇄 결정">
           <div><b>진단</b><span>두 스택, 여러 AI, 공유되지 않은 훅, 인증 데이터 위험을 찾는다.</span></div>
           <div><b>질문</b><span>누가 정책을 승인하는지, CI를 쓸 수 있는지처럼 관측 불가능한 것만 묻는다.</span></div>
-          <div><b>관계</b><span>시크릿 검사 활성화는 공유 CI와 실제 검사기 배포를 필수화한다.</span></div>
+          <div><b>requires</b><span>시크릿 검사 활성화는 공유 CI와 실제 검사기 배포를 필수화한다.</span></div>
+          <div><b>trades_off</b><span>검토를 깊게 하면 남은 시간이 준다. 무엇을 줄일지는 사람이 고른다.</span></div>
+          <div><b>erodes</b><span>훅이 느려 우회가 늘면 켜 놓은 검사도 실제로는 아무것도 막지 못한다.</span></div>
           <div><b>자원</b><span>토큰이 부족하면 문맥을 요약하고 작업을 나누되 필수 검사는 내리지 않는다.</span></div>
           <div><b>결과</b><span>후보 계획과 파급 효과를 보여 주고, 승인 뒤 적용·검증한다.</span></div>
+          <div><b>미결</b><span>오탐에 막힌 팀원이 누구에게 이의제기하고, repo 권한이 없으면 어디로 가는지는 아직 정하지 않았다.</span></div>
         </div>
       </div>
     </section>
@@ -909,13 +972,26 @@
 
       <div class="guardrail">
         <blockquote>“안전 하한은 몰래 낮추지 않는다. 그러나 하한을 지키는 방법은 검토하고 바꿀 수 있다.”</blockquote>
-        <ul>
-          <li>모든 제약은 근거, 범위, 소유자와 발동 조건을 가진다.</li>
-          <li>false block과 안전한 작업이 막힌 시간을 측정한다.</li>
-          <li>만료, 재심, 완화·삭제 기준을 함께 둔다.</li>
-          <li>전체 교착 대신 격리·읽기 전용·별도 복구 승인 같은 안전한 탈출 경로를 둔다.</li>
-          <li>자원 부족을 이유로 필수 안전을 조용히 해제하지 않는다.</li>
-        </ul>
+        <div>
+          <h3>일반 제약에 적용</h3>
+          <ul>
+            <li>근거, 범위, 소유자와 발동 조건을 가진다.</li>
+            <li>false block과 안전한 작업이 막힌 시간을 측정한다.</li>
+            <li>만료, 재심, 완화·삭제 기준을 함께 둔다.</li>
+          </ul>
+          <h3>안전 하한은 다르게 취급</h3>
+          <ul>
+            <li>만료로 사라지지 않는다. 같은 위험을 맡는 다른 기전이 검증됐을 때만 바뀐다.</li>
+            <li>자원 부족을 이유로 조용히 해제하지 않는다.</li>
+            <li><em class="state design">설계 요구 · 미구현</em> 전체가 막히면 격리·읽기 전용·별도 복구 승인 같은 안전한 탈출 경로가 필요하다.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="stop-line">
+        <strong>실제 교착 사례:</strong> 2026-09-16 시험 01에서는 지침 진입점이 없는 저장소에
+        문맥 예산 게이트가 켜져 모든 Markdown 커밋이 막혔다. 설치·제거의 일부 경로만 본
+        한 저장소 클론 실험이므로 범용 결론은 아니다.
       </div>
     </section>
 
@@ -941,9 +1017,32 @@
       </table>
     </section>
 
+    <section id="decisions">
+      <div class="section-head">
+        <div><span class="section-index">09 · 사람이 정할 것</span><h2>도구가 대신 정하면 안 되는 11가지</h2></div>
+        <p class="section-lead">
+          아래는 구현 빈칸이 아니라 가치·권력·위험의 미결정이다. 시스템은 기본값을 몰래
+          고르지 않고, 필요한 단계가 오면 권한 있는 사람에게 질문해야 한다.
+        </p>
+      </div>
+      <ol class="unresolved">
+        <li>피해·근거 확실성·가역성·노출·탐지 가능성의 등급</li>
+        <li>개인·팀 환경에서 정책을 승인·거부·재심할 권한</li>
+        <li>repo 권한이 없는 피해 당사자의 이의제기와 복구 경로</li>
+        <li>외부 사실의 권위 출처·만료·철회·분쟁 처리</li>
+        <li>외부 효과의 금지·보상·비가역 분류</li>
+        <li>감사 데이터의 목적·접근·보존·삭제권</li>
+        <li>예외와 부정 결과의 만료·재개봉 기준</li>
+        <li>제공자별 모델 상한과 금지 provider·권한·데이터 경계</li>
+        <li>관계 제약의 소유자·승인자와 trade-off 결정권자</li>
+        <li>새 개념을 인정할 안전 비열등성·우월성·비용 임계값</li>
+        <li>첫 파일럿 범위와 팀 기능을 열 시점</li>
+      </ol>
+    </section>
+
     <section id="experiments">
       <div class="section-head">
-        <div><span class="section-index">09 · 검증 계획</span><h2>좋았다는 느낌이 아니라, 틀릴 조건을 먼저 적는다.</h2></div>
+        <div><span class="section-index">10 · 검증 계획</span><h2>좋았다는 느낌이 아니라, 틀릴 조건을 먼저 적는다.</h2></div>
         <p class="section-lead">
           빈 저장소, 일부만 있는 저장소, 성숙한 저장소, 손상·적대 상태를 나눠 시험한다.
           기존 최강 도구 조합보다 낫지 않으면 “새로운 시스템”이라는 주장을 버린다.
@@ -966,14 +1065,14 @@
 
       <div class="handoff-note">
         <strong>마지막 10단계:</strong> 전체 여정이 검증된 뒤에만 개인 전역 규칙 저장소
-        `.agents`의 메인 세션과 여러 차례 대화하며 적용한다. 구현을 복사하거나 활성 세션을
+        <code>.agents</code>의 메인 세션과 여러 차례 대화하며 적용한다. 구현을 복사하거나 활성 세션을
         덮지 않고, 진단→질문→작은 적용→검증을 단계마다 반복한다.
       </div>
     </section>
 
     <section id="glossary">
       <div class="section-head">
-        <div><span class="section-index">10 · 짧은 용어집</span><h2>정확한 이름으로 다시 보기</h2></div>
+        <div><span class="section-index">11 · 짧은 용어집</span><h2>정확한 이름으로 다시 보기</h2></div>
         <p class="section-lead">비유는 입구일 뿐이다. 실제 설계에서는 아래 용어로 상태를 구분한다.</p>
       </div>
 
@@ -981,20 +1080,20 @@
         <summary>증거 그래프와 제어 그래프</summary>
         <p>규칙·근거·문맥·역할이 어떻게 이어지는지와, 훅·CI·승인이 실제로 어디서 강제되는지를 연결한 관계 모델이다. 그래프 자체가 진실을 보증하지는 않는다.</p>
       </details>
-      <details>
+      <details open>
         <summary>후보 정책과 활성 정책</summary>
         <p>새 아이디어는 먼저 후보가 된다. 반증, 영향 검토, 권한 있는 승인을 거쳐야 실제 적용되는 활성 정책이 된다.</p>
       </details>
-      <details>
-        <summary>postcondition</summary>
+      <details open>
+        <summary><code>postcondition</code></summary>
         <p>명령이 성공 코드를 냈는지가 아니라, 실제 파일·Git 설정·실행 결과가 계획대로인지 사후에 확인하는 조건이다.</p>
       </details>
-      <details>
-        <summary>not-run · blocked · unverifiable</summary>
+      <details open>
+        <summary><code>not-run</code> · <code>blocked</code> · <code>unverifiable</code></summary>
         <p>검사가 안 돌았음, 안전·권한 때문에 막혔음, 증거가 없어 확인할 수 없음을 각각 나타낸다. 어느 것도 성공이 아니다.</p>
       </details>
-      <details>
-        <summary>anti-ratchet</summary>
+      <details open>
+        <summary><code>anti-ratchet</code></summary>
         <p>제약이 사고 때마다 추가되기만 하고 사라지지 않는 현상을 막는 원칙이다. 규칙도 비용과 실패를 측정하고 만료·재심·삭제될 수 있어야 한다.</p>
       </details>
     </section>
